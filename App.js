@@ -8,6 +8,7 @@ import MapScreen from "./screens/MapScreen";
 import HomeScreen from "./screens/HomeScreen";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { GOOGLE_MAPS_APIKEY } from "@env";
+import Toast from "react-native-toast-message";
 
 export default function App() {
   const Stack = createNativeStackNavigator();

@@ -4,6 +4,9 @@ import { TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import { Icon } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { selectOrigin } from "../slices/navSlice";
+import Toast from "react-native-root-toast";
 
 const data = [
   {
@@ -22,6 +25,7 @@ const data = [
 
 const NavOptions = () => {
   const navigation = useNavigation();
+  const origin = useSelector(selectOrigin);
 
   return (
     <FlatList
@@ -30,7 +34,14 @@ const NavOptions = () => {
       horizontal
       renderItem={({ item }) => (
         <TouchableOpacity
-          onPress={() => navigation.navigate(item.screen)}
+          onPress={() => {
+            if (origin) {
+              // Navigate to the desired screen
+              navigation.navigate(item.screen);
+            } else {
+              Toast.show("Please enter origin location", 300);
+            }
+          }}
           style={tw`p-2 pl-6 pr-6 pb-8 pt-4 bg-gray-200 m-2 w-40`}
         >
           <View>
