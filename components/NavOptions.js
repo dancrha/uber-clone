@@ -36,7 +36,6 @@ const NavOptions = () => {
         <TouchableOpacity
           onPress={() => {
             if (origin) {
-              // Navigate to the desired screen
               navigation.navigate(item.screen);
             } else {
               Toast.show("Please enter origin location", 300);
