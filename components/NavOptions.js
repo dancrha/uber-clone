@@ -1,6 +1,8 @@
 import { FlatList, Image, Text, View } from "react-native";
 import React from "react";
 import { Pressable, TouchableOpacity } from "react-native";
+import tw from "twrnc";
+import { Icon } from "@rneui/themed";
 
 const data = [
   {
@@ -20,18 +22,27 @@ const data = [
 const NavOptions = () => {
   return (
     <FlatList
+      style={tw`mx-auto`}
       keyExtractor={(item) => item.id}
       data={data}
       horizontal
       renderItem={({ item }) => (
         <Pressable>
-          <TouchableOpacity>
+          <TouchableOpacity
+            style={tw`p-2 pl-6 pr-6 pb-8 pt-4 bg-gray-200 m-2 w-40`}
+          >
             <View>
               <Image
                 source={{ uri: item.image }}
-                style={{ width: 120, height: 120 }}
+                style={{ width: 120, height: 120, resizeMode: "contain" }}
               />
-              <Text>{item.title}</Text>
+              <Text style={tw` mt-2 text-lg font-semibold`}>{item.title}</Text>
+              <Icon
+                style={tw`p-2 bg-black rounded-full w-10 mt-4`}
+                type='antdesign'
+                color='white'
+                name='arrowright'
+              />
             </View>
           </TouchableOpacity>
         </Pressable>
