@@ -5,6 +5,29 @@ import NavOptions from "../components/NavOptions";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useDispatch } from "react-redux";
 import { setDestination, setOrigin } from "../slices/navSlice";
+import Geocoding from "react-native-geocoding";
+
+Geocoding.init(process.env.GOOGLE_MAPS_APIKEY);
+
+const getCoordinatesFromAddress = async (address) => {
+  try {
+    const response = await Geocoding.from(address);
+    const { results } = response;
+    if (results.length > 0) {
+      const { geometry } = results[0];
+      const { location } = geometry;
+      return {
+        latitude: location.lat,
+        longitude: location.lng,
+      };
+    } else {
+      throw new Error("No results found");
+    }
+  } catch (error) {
+    console.error("Error getting coordinates from address:", error);
+    return null;
+  }
+};
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -27,15 +50,23 @@ const HomeScreen = () => {
               fontSize: 18,
             },
           }}
-          onPress={(data, details = null) => {
-            console.log(data);
-            dispatch(
-              setOrigin({
-                location: details.geocode,
-                description: data.description,
-              })
+          onPress={async (data, details = null) => {
+            console.log(data, details);
+            const coordinates = await getCoordinatesFromAddress(
+              data.description
             );
-            dispatch(setDestination(null));
+            console.log(coordinates);
+            if (coordinates) {
+              dispatch(
+                setOrigin({
+                  location: coordinates,
+                  description: data.description,
+                })
+              );
+              dispatch(setDestination(null));
+            } else {
+              console.log("No coordinates found.");
+            }
           }}
           minLength={2}
           returnKeyType={"search"}
