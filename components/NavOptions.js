@@ -1,8 +1,9 @@
 import { FlatList, Image, Text, View } from "react-native";
 import React from "react";
-import { Pressable, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import { Icon } from "@rneui/themed";
+import { useNavigation } from "@react-navigation/native";
 
 const data = [
   {
@@ -20,6 +21,8 @@ const data = [
 ];
 
 const NavOptions = () => {
+  const navigation = useNavigation();
+
   return (
     <FlatList
       style={tw`mx-auto`}
@@ -27,25 +30,24 @@ const NavOptions = () => {
       data={data}
       horizontal
       renderItem={({ item }) => (
-        <Pressable>
-          <TouchableOpacity
-            style={tw`p-2 pl-6 pr-6 pb-8 pt-4 bg-gray-200 m-2 w-40`}
-          >
-            <View>
-              <Image
-                source={{ uri: item.image }}
-                style={{ width: 120, height: 120, resizeMode: "contain" }}
-              />
-              <Text style={tw` mt-2 text-lg font-semibold`}>{item.title}</Text>
-              <Icon
-                style={tw`p-2 bg-black rounded-full w-10 mt-4`}
-                type='antdesign'
-                color='white'
-                name='arrowright'
-              />
-            </View>
-          </TouchableOpacity>
-        </Pressable>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(item.screen)}
+          style={tw`p-2 pl-6 pr-6 pb-8 pt-4 bg-gray-200 m-2 w-40`}
+        >
+          <View>
+            <Image
+              source={{ uri: item.image }}
+              style={{ width: 120, height: 120, resizeMode: "contain" }}
+            />
+            <Text style={tw` mt-2 text-lg font-semibold`}>{item.title}</Text>
+            <Icon
+              style={tw`p-2 bg-black rounded-full w-10 mt-4`}
+              type='antdesign'
+              color='white'
+              name='arrowright'
+            />
+          </View>
+        </TouchableOpacity>
       )}
     />
   );
