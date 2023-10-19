@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setDestination } from "../slices/navSlice";
 import { useNavigation } from "@react-navigation/native";
 import Geocoding from "react-native-geocoding";
+import NavFavourites from "./NavFavourites";
 
 Geocoding.init(process.env.GOOGLE_MAPS_APIKEY);
 
@@ -44,7 +45,7 @@ const NavigateCard = () => {
             fetchDetails={true}
             enablePoweredByContainer={false}
             query={{ key: process.env.GOOGLE_MAPS_APIKEY, language: "en" }}
-            debounce={400}
+            debounce={100}
             onPress={async (data, details = null) => {
               console.log(data, details);
               const coordinates = await getCoordinatesFromAddress(
@@ -67,6 +68,8 @@ const NavigateCard = () => {
             nearbyPlacesAPI='GooglePlacesSearch'
           />
         </View>
+
+        <NavFavourites />
       </View>
     </SafeAreaView>
   );

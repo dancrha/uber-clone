@@ -6,6 +6,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { useDispatch } from "react-redux";
 import { setDestination, setOrigin } from "../slices/navSlice";
 import Geocoding from "react-native-geocoding";
+import NavFavourites from "../components/NavFavourites";
 
 Geocoding.init(process.env.GOOGLE_MAPS_APIKEY);
 
@@ -77,6 +78,7 @@ const HomeScreen = () => {
           placeholder='Where from?'
         />
         <NavOptions />
+        <NavFavourites />
       </View>
     </SafeAreaView>
   );

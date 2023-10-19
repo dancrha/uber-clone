@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import MapView, { Marker } from "react-native-maps";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
@@ -10,11 +10,21 @@ import { GOOGLE_MAPS_APIKEY } from "@env";
 const Map = () => {
   const origin = useSelector(selectOrigin);
   const destination = useSelector(selectDestination);
+  const mapRef = useRef(null);
   console.log(origin);
   console.log(destination);
 
+  useEffect(() => {
+    if (!origin || !destination) return;
+
+    mapRef.current.fitToSuppliedMarkers(["origin", "destination"], {
+      edgePadding: { top: 50, right: 50, left: 50, bottom: 50 },
+    });
+  }, [origin, destination]);
+
   return (
     <MapView
+      ref={mapRef}
       style={tw`flex-1`}
       mapType='mutedStandard'
       initialRegion={{
@@ -26,14 +36,8 @@ const Map = () => {
     >
       {origin && destination && (
         <MapViewDirections
-          origin={{
-            latitude: origin.location.latitude,
-            longitude: origin.location.longitude,
-          }}
-          destination={{
-            latitude: destination.location.latitude,
-            longitude: destination.location.longitude,
-          }}
+          origin={origin.description}
+          destination={destination.description}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeColor='black'
           strokeWidth={3}
