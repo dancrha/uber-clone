@@ -59,11 +59,10 @@ const NavigateCard = () => {
                   })
                 );
                 navigation.navigate("RideOptionsCard");
-
-                dispatch(setDestination(null));
               } else {
                 console.log("No coordinates found.");
               }
+              return coordinates;
             }}
             nearbyPlacesAPI='GooglePlacesSearch'
           />
