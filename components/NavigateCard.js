@@ -43,7 +43,7 @@ const NavigateCard = () => {
           <GooglePlacesAutocomplete
             styles={toInputBoxStyles}
             placeholder='Where to?'
-            returnKeyType={"done"}
+            returnKeyType={"search"}
             fetchDetails={true}
             enablePoweredByContainer={false}
             query={{ key: process.env.GOOGLE_MAPS_APIKEY, language: "en" }}
